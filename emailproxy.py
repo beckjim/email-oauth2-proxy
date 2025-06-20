@@ -860,7 +860,6 @@ class OAuth2Helper:
             if access_token or refresh_token:  # if possible, refresh the existing token(s)
                 if not access_token or access_token_expiry - current_time < TOKEN_EXPIRY_MARGIN:
                     if refresh_token:
-                        response = OAuth2Helper.refresh_oauth2_access_token(token_url, client_id, client_secret,
                         if oauth2_flow == 'device':
                             response = OAuth2Helper.refresh_oauth2_access_token(token_url, client_id, None,
                                                                             None, username,
