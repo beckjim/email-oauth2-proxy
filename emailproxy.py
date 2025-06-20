@@ -861,8 +861,14 @@ class OAuth2Helper:
                 if not access_token or access_token_expiry - current_time < TOKEN_EXPIRY_MARGIN:
                     if refresh_token:
                         response = OAuth2Helper.refresh_oauth2_access_token(token_url, client_id, client_secret,
-                                                                            jwt_client_assertion, username,
+                        if oauth2_flow == 'device':
+                            response = OAuth2Helper.refresh_oauth2_access_token(token_url, client_id, None,
+                                                                            None, username,
                                                                             cryptographer.decrypt(refresh_token))
+                        else:
+                            response = OAuth2Helper.refresh_oauth2_access_token(token_url, client_id, client_secret,
+                                                                             jwt_client_assertion, username,
+                                                                             cryptographer.decrypt(refresh_token))
 
                         access_token = response['access_token']
                         config.set(username, 'access_token', cryptographer.encrypt(access_token))
